@@ -1,5 +1,6 @@
 package net.blog.springbootrestapi.controller;
 
+import jakarta.validation.Valid;
 import net.blog.springbootrestapi.payload.PostDto;
 import net.blog.springbootrestapi.payload.PostResponse;
 import net.blog.springbootrestapi.service.PostService;
@@ -20,7 +21,7 @@ public class PostController {
     }
     //create blog post
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto){
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto){
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
     //get all blog
@@ -40,7 +41,7 @@ public class PostController {
     }
     //update by id
     @PutMapping("/{id}")
-    public ResponseEntity<PostDto> updateById(@RequestBody PostDto postDto,@PathVariable(name = "id") long id){
+    public ResponseEntity<PostDto> updateById(@Valid@RequestBody PostDto postDto,@PathVariable(name = "id") long id){
         return new ResponseEntity<>(postService.updateById(id,postDto),HttpStatus.OK);
     }
 // delete by id
