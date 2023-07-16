@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Bean;
 public class SpringbootRestApiApplication {
 	@Bean
 	public ModelMapper modelMapper(){
+
 		return new ModelMapper();
 	}
+
 
 
 
