@@ -1,11 +1,13 @@
 package net.blog.springbootrestapi.service.impl;
 
+import ch.qos.logback.classic.net.SMTPAppender;
 import net.blog.springbootrestapi.entity.Post;
 import net.blog.springbootrestapi.exception.ResourceNotFoundException;
 import net.blog.springbootrestapi.payload.PostDto;
 import net.blog.springbootrestapi.payload.PostResponse;
 import net.blog.springbootrestapi.repository.PostRepository;
 import net.blog.springbootrestapi.service.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,9 +21,11 @@ import static org.antlr.v4.runtime.tree.xpath.XPath.findAll;
 @Service
 public class PostServiceImpl  implements PostService {
     private PostRepository postRepository;
+    private ModelMapper maper;
 
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository,ModelMapper mapper) {
         this.postRepository = postRepository;
+        this.maper = mapper;
     }
 
     //used to create the post
@@ -94,19 +98,21 @@ public class PostServiceImpl  implements PostService {
 
     //to implement the conversion in one method to refactor
     private PostDto mapToDto(Post post){
-        PostDto postDto = new PostDto();
-        postDto.setId(post.getId());
-        postDto.setTitle(post.getTitle());
-        postDto.setContent(post.getContent());
-        postDto.setDescription(post.getDescription());
+        PostDto postDto = maper.map(post,PostDto.class);
+//        PostDto postDto = new PostDto();
+//        postDto.setId(post.getId());
+//        postDto.setTitle(post.getTitle());
+//        postDto.setContent(post.getContent());
+//        postDto.setDescription(post.getDescription());
         return postDto;
     }
     // to implemnt the conversion of dto entity
     private Post mapToEntity(PostDto postDto){
-        Post post = new Post();
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());
+        Post post = maper.map(postDto,Post.class);
+//        Post post = new Post();
+//        post.setTitle(postDto.getTitle());
+//        post.setDescription(postDto.getDescription());
+//        post.setContent(postDto.getContent());
 
         return post;
     }

@@ -1,12 +1,14 @@
 package net.blog.springbootrestapi.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 // lambook anotation to avoid boiler plate code like constructor,getter,setter
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 //entity is used to match this to sql database @table is used to specify the table name and other unique contraints if any
@@ -27,4 +29,7 @@ public class Post {
     private String description;
     @Column(name="content", nullable = false)
     private String content;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
 }
