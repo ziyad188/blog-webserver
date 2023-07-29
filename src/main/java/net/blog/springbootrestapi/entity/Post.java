@@ -32,4 +32,9 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    //in many to one mapping we have to join table in child becuase here post is child
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

@@ -58,6 +58,7 @@ public class SecurityConfig {
                         //authorize.anyRequest().authenticated()
                         // to authorise based on role so here det request will accessible to all of them and all other request will auth
                         authorize.requestMatchers(HttpMethod.GET,"/api/**").permitAll()
+                                //.requestMatchers(HttpMethod.GET,"/api/categories/** ").permitAll()
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .anyRequest().authenticated()
 
