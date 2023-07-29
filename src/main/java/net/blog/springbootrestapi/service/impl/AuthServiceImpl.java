@@ -1,6 +1,7 @@
 package net.blog.springbootrestapi.service.impl;
 
 import lombok.Setter;
+import net.blog.springbootrestapi.Security.JwtTokenProvider;
 import net.blog.springbootrestapi.entity.Roles;
 import net.blog.springbootrestapi.entity.User;
 import net.blog.springbootrestapi.exception.BlogApiException;
@@ -27,20 +28,24 @@ public class AuthServiceImpl implements AuthService {
     private UserRespository userRespository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private JwtTokenProvider jwtTokenProvider;
 
 
-    public AuthServiceImpl(AuthenticationManager authenticationManager, UserRespository userRespository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AuthServiceImpl(AuthenticationManager authenticationManager, UserRespository userRespository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userRespository = userRespository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
     public String login(LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(),loginDto.getPassword()));
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "User loged in sucessfuly";
+        String token = jwtTokenProvider.generateToken(authentication);
+        return token;
 
     }
 

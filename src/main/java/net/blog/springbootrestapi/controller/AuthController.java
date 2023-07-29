@@ -1,5 +1,6 @@
 package net.blog.springbootrestapi.controller;
 
+import net.blog.springbootrestapi.payload.JwtAuthResponse;
 import net.blog.springbootrestapi.payload.LoginDto;
 import net.blog.springbootrestapi.payload.SignUpDto;
 import net.blog.springbootrestapi.service.AuthService;
@@ -22,9 +23,12 @@ public class AuthController {
     //build login rest api
     @PostMapping(value = {"/login","/signin"})
 
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
-       String response = authService.login(loginDto);
-       return ResponseEntity.ok(response);
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
+       String token = authService.login(loginDto);
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+        jwtAuthResponse.setAccessToken(token);
+
+       return ResponseEntity.ok(jwtAuthResponse);
     }
     @PostMapping(value = {"/register","signup"})
     public ResponseEntity<String> register(@RequestBody SignUpDto signUpDto){
