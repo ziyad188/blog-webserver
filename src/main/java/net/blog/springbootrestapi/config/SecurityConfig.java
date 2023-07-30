@@ -1,5 +1,7 @@
 package net.blog.springbootrestapi.config;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import net.blog.springbootrestapi.Security.JwtAuthenticationEntryPoint;
 import net.blog.springbootrestapi.Security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -25,6 +27,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 //  to provide role based access
 @EnableMethodSecurity
+//for adding protectes apis in swagger
+@SecurityScheme(
+        name = "Bear Authentication",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer"
+)
 public class SecurityConfig {
     private UserDetailsService userDetailsService;
     private JwtAuthenticationEntryPoint authenticationEntryPoint;
@@ -60,6 +69,8 @@ public class SecurityConfig {
                         authorize.requestMatchers(HttpMethod.GET,"/api/**").permitAll()
                                 //.requestMatchers(HttpMethod.GET,"/api/categories/** ").permitAll()
                                 .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("swagger-ui/**").permitAll()
+                                .requestMatchers("/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()
 
                 ).exceptionHandling(exception -> exception

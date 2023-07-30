@@ -1,5 +1,7 @@
 package net.blog.springbootrestapi.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import net.blog.springbootrestapi.payload.JwtAuthResponse;
 import net.blog.springbootrestapi.payload.LoginDto;
 import net.blog.springbootrestapi.payload.SignUpDto;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
+
 public class AuthController {
     public AuthService authService;
 
@@ -21,6 +24,15 @@ public class AuthController {
         this.authService = authService;
     }
     //build login rest api
+    @Operation(
+            summary = "Authenticate Login REST API",
+            description = "Authenticate Login REST API used to authenticate credintials"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 success"
+
+    )
     @PostMapping(value = {"/login","/signin"})
 
     public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
@@ -30,6 +42,15 @@ public class AuthController {
 
        return ResponseEntity.ok(jwtAuthResponse);
     }
+    @Operation(
+            summary = "Authenticate Register REST API",
+            description = "Authenticate Register REST API used to create a user"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Http Status 201 success"
+
+    )
     @PostMapping(value = {"/register","signup"})
     public ResponseEntity<String> register(@RequestBody SignUpDto signUpDto){
         String response = authService.register(signUpDto);
