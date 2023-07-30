@@ -82,6 +82,9 @@ public class PostController {
             description = "Http Status 200 success"
 
     )
+    // for versioning using  parameter add paramenter to link like param here in get anotation
+    // for versioning using header we can provide a property in get annotation same as above and mention header
+    //same for contnet where we use property produce in get anotation
     @GetMapping("/api/v1/posts/{id}")
     public  ResponseEntity<PostDto> getByIdV1(@PathVariable(name = "id") long id){
         return ResponseEntity.ok(postService.getPostById(id));
