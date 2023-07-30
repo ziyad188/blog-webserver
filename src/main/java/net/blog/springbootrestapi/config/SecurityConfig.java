@@ -66,9 +66,9 @@ public class SecurityConfig {
                         //to authorise all request
                         //authorize.anyRequest().authenticated()
                         // to authorise based on role so here det request will accessible to all of them and all other request will auth
-                        authorize.requestMatchers(HttpMethod.GET,"/api/**").permitAll()
+                        authorize.requestMatchers(HttpMethod.GET,"/api/v1/**").permitAll()
                                 //.requestMatchers(HttpMethod.GET,"/api/categories/** ").permitAll()
-                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers("swagger-ui/**").permitAll()
                                 .requestMatchers("/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()

@@ -5,10 +5,16 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import net.blog.springbootrestapi.entity.Roles;
+import net.blog.springbootrestapi.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
+
+import javax.management.relation.Role;
 
 @SpringBootApplication
 @OpenAPIDefinition(
@@ -31,7 +37,23 @@ import org.springframework.context.annotation.Bean;
 				url = "https://github.com/ziyad188/blog-webserver.git"
 		)
 )
-public class SpringbootRestApiApplication {
+public class SpringbootRestApiApplication implements CommandLineRunner {
+	//to write meta data into the database
+	@Autowired
+	private RoleRepository roleRepository;
+	@Override
+	public void run(String... args) throws Exception {
+		Roles adminRole = new Roles();
+		adminRole.setName("ROLE_ADMIN");
+		roleRepository.save(adminRole);
+
+		Roles userRole = new Roles();
+		userRole.setName("ROLE_USER");
+		roleRepository.save(userRole);
+
+
+	}
+
 	@Bean
 	public ModelMapper modelMapper(){
 
